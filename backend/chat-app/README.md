@@ -5,11 +5,12 @@
 `chat-app`: Java project acting as parent Maven project for all microservices.
 - Microservices will be added a child maven modules
 - `<packaging>pom</packaging>` tells this is not an application project, but a parent project.
+- Sprint Boot 3.5.8 Application
+  - `4.0.0` has issues with enabling h2-console
 
 ### User Service
 `chat-app/user-service`: Microservice for user service
 - added as child Maven module of root project
-- Sprint Boot 4.0.0 Application
 
 ### Chat Service
 `chat-app/chat-service`: Microservice for chat service
@@ -33,3 +34,12 @@
 - `/service`: business logic, wrapper around repository and other services
   - `ConversationService`: methods for conversation business logic.
   - `MessageService`: uses ConversationService and MessageRepository.
+
+#### h2-console
+Navigate to `http://localhost:8081/h2-console`
+- Url: jdbc:h2:mem:chatdb
+- Username: sa
+- Password: <empty>
+
+It allows one to CRUD h2 database right from browser.
+It's helpful in testing.
