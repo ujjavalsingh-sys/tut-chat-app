@@ -10,3 +10,9 @@
 `chat-app/user-service`: Microservice for user service
 - added as child Maven module of root project
 - Sprint Boot 4.0.0 Application
+
+#### Chat Service
+`chat-app/chat-service`: Microservice for chat service
+- same setup as user service
+- Persistence: JPA (Java Persistence API) + Hibernate
+- currently uses `h2` -  in-memory (non-persisting) database. Later replace with `PostgreSQL`.
