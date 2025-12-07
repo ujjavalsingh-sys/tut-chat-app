@@ -21,6 +21,8 @@
 
 #### Spring Boot Packages
 - `/controller`: REST endpoints
+  - `ConversationController`: create conversations, list conversations
+  - `MessageController`: send messages, fetch messages
 - `/entity`: JPA entities
   - "Message": a typical message
   - "Conversation": list of messages in 1:1 chat

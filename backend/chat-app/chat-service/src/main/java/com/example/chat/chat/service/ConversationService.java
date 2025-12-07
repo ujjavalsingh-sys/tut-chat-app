@@ -12,6 +12,11 @@ public class ConversationService {
     public ConversationService(ConversationRepository conversationRepository) {
         this.conversationRepository = conversationRepository;
     }
+
+    public Conversation createConversation() {
+        Conversation conversation = new Conversation();
+        return conversationRepository.save(conversation);
+    }
     public List<Conversation> getAllConversations() {
         return conversationRepository.findAll();
     }
