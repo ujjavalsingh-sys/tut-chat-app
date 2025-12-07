@@ -23,4 +23,4 @@
 - `/repository`: JPA repository
 - `/service`: business logic
 
-![Entities](/../../assets/conv-message-diag.png)
+![Entities](../../assets/conv-message-diag.png)
