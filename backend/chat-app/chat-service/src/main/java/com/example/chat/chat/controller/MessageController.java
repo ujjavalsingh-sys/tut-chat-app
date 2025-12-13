@@ -1,5 +1,6 @@
 package com.example.chat.chat.controller;
 
+import com.example.chat.chat.dto.CreateMessageRequest;
 import com.example.chat.chat.entity.Message;
 import com.example.chat.chat.service.MessageService;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +16,8 @@ public class MessageController {
     }
 
     @PostMapping
-    public Message createMessage(
-            @RequestParam Long conversationId,
-            @RequestParam Long senderId,
-            @RequestParam String text
-    ) {
-        return messageService.sendMessage(conversationId, senderId, text);
+    public Message createMessage(@RequestBody CreateMessageRequest request) {
+        return messageService.sendMessage(request.conversationId(),request.senderId(), request.text());
     }
 
     @GetMapping("/{conversationId}")

@@ -44,3 +44,15 @@ Navigate to `http://localhost:8081/h2-console`
 
 It allows one to CRUD h2 database right from browser.
 It's helpful in testing.
+
+## End-to-end Testing
+Spring Boot tests are located at `<service>/src/test/java/com.example.chat.<service>/*Test.java`.
+Some concepts to learn (official guide at https://spring.io/guides/gs/testing-web)-
+- `@SpringBootTest`: Tells Spring Boot to look for a main configuration class (one with `SpringBootApplication`) and use that to start a Spring application context.
+- `@Test`: for an individual test
+- `@Autowired`: Spring Boot injects the object as test dependency BEFORE running any test. `contextLoads` is such a smoke test that checks controller is not null.
+  - `MockMvc`: for running service and call REST endpoints
+  - `ObjectMapper`: JSON conversion (`jsonPath`, `readTree`). See [ChatServiceApplicationTest](./chat-service/src/test/java/com/example/chat/chat/ChatServiceApplicationTest.java) for usage.
+
+Spring Boot Test runs the endpoint end-to-end, from starting actual server to creating entry in h2 database.
+We can also use Mockito to mock service without running service.

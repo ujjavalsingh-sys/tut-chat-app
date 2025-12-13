@@ -11,6 +11,10 @@ public class Conversation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public Long getId() {
+        return id;
+    }
+
     // 1 Conversation has many messages
     // mappedBy: bi-directional association with Messages entity
     // cascade: deleting a conversation deletes all messages associated to it

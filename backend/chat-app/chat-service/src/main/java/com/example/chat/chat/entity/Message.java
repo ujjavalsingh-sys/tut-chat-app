@@ -10,18 +10,38 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public Long getId() {
+        return id;
+    };
+
     // Long for now; later it will be integrated via user-service
     private Long senderId;
 
+    public Long getSenderId() {
+        return senderId;
+    }
+
     private String text;
 
+    public String getText() {
+        return text;
+    }
+
     private LocalDateTime timestamp;
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
 
     // Each message belongs to 1 conversation
     @ManyToOne
     // foreign key in Message table referring to the parent conversation primary attribute
     @JoinColumn(name = "conversation_id")
     private Conversation conversation;
+
+    public Conversation getConversation() {
+        return conversation;
+    }
 
     public Message() {}
     public Message(Long senderId, String text, Conversation conversation) {
