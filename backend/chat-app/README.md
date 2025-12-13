@@ -1,5 +1,6 @@
 ## Backend chat-app
 
+![Service-diagram](../../assets/java-service-class-diagram.jpg)
 
 ### Root project
 `chat-app`: Java project acting as parent Maven project for all microservices.
