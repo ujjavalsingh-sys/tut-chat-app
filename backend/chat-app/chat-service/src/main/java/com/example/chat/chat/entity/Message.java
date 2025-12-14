@@ -1,5 +1,8 @@
 package com.example.chat.chat.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -8,17 +11,25 @@ import java.time.LocalDateTime;
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("messageId")
     private Long id;
 
     public Long getId() {
         return id;
     };
 
-    // Long for now; later it will be integrated via user-service
-    private Long senderId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender_id")
+    @JsonIgnore
+    private Person sender;
 
+    public Person getSender() {
+        return sender;
+    }
+
+    @JsonProperty("senderId")
     public Long getSenderId() {
-        return senderId;
+        return sender.getId();
     }
 
     private String text;
@@ -37,15 +48,21 @@ public class Message {
     @ManyToOne
     // foreign key in Message table referring to the parent conversation primary attribute
     @JoinColumn(name = "conversation_id")
+    @JsonIgnore
     private Conversation conversation;
 
     public Conversation getConversation() {
         return conversation;
     }
 
+    @JsonProperty("parentConversationId")
+    public Long parentConversationId() {
+        return conversation.getId();
+    }
+
     public Message() {}
-    public Message(Long senderId, String text, Conversation conversation) {
-        this.senderId = senderId;
+    public Message(Person sender, String text, Conversation conversation) {
+        this.sender = sender;
         this.text = text;
         this.conversation = conversation;
         this.timestamp = LocalDateTime.now();
