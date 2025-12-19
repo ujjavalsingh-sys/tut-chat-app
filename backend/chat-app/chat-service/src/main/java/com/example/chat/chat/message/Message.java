@@ -1,6 +1,7 @@
-package com.example.chat.chat.entity;
+package com.example.chat.chat.message;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.example.chat.chat.conversation.Conversation;
+import com.example.chat.chat.person.Person;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;

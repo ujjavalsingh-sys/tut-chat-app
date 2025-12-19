@@ -1,11 +1,6 @@
-package com.example.chat.chat.service;
+package com.example.chat.chat.person;
 
-import com.example.chat.chat.entity.Conversation;
-import com.example.chat.chat.entity.Person;
-import com.example.chat.chat.repository.PersonRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class PersonService {

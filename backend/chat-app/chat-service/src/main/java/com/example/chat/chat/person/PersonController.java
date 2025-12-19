@@ -1,8 +1,6 @@
-package com.example.chat.chat.controller;
+package com.example.chat.chat.person;
 
-import com.example.chat.chat.entity.Conversation;
-import com.example.chat.chat.entity.Person;
-import com.example.chat.chat.service.PersonService;
+import com.example.chat.chat.conversation.Conversation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

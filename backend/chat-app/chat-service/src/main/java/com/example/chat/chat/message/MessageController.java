@@ -1,8 +1,5 @@
-package com.example.chat.chat.controller;
+package com.example.chat.chat.message;
 
-import com.example.chat.chat.dto.CreateMessageRequest;
-import com.example.chat.chat.entity.Message;
-import com.example.chat.chat.service.MessageService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

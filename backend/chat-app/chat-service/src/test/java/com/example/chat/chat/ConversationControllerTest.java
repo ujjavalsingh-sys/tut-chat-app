@@ -1,6 +1,6 @@
 package com.example.chat.chat;
 
-import com.example.chat.chat.controller.ConversationController;
+import com.example.chat.chat.conversation.ConversationController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

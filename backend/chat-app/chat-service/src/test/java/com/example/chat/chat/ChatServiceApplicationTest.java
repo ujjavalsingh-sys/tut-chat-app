@@ -1,6 +1,6 @@
 package com.example.chat.chat;
 
-import com.example.chat.chat.dto.CreateMessageRequest;
+import com.example.chat.chat.message.CreateMessageRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

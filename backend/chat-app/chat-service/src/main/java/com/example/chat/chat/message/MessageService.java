@@ -1,9 +1,9 @@
-package com.example.chat.chat.service;
+package com.example.chat.chat.message;
 
-import com.example.chat.chat.entity.Conversation;
-import com.example.chat.chat.entity.Message;
-import com.example.chat.chat.entity.Person;
-import com.example.chat.chat.repository.MessageRepository;
+import com.example.chat.chat.conversation.Conversation;
+import com.example.chat.chat.conversation.ConversationService;
+import com.example.chat.chat.person.Person;
+import com.example.chat.chat.person.PersonService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

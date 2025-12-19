@@ -1,6 +1,5 @@
-package com.example.chat.chat.repository;
+package com.example.chat.chat.person;
 
-import com.example.chat.chat.entity.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PersonRepository extends JpaRepository<Person, Long> {

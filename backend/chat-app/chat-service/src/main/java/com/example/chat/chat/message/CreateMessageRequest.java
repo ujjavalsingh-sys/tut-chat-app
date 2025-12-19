@@ -1,4 +1,4 @@
-package com.example.chat.chat.dto;
+package com.example.chat.chat.message;
 
 public record CreateMessageRequest(
         Long conversationId,
