@@ -1,12 +1,13 @@
 package com.example.chat.chat.person;
 
-import com.example.chat.chat.conversation.Conversation;
+import com.example.chat.chat.conversation.ConversationSummaryDto;
+import com.example.chat.chat.conversation.ConvesationMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -17,13 +18,13 @@ public class PersonController {
     }
 
     @GetMapping("/{userId}")
-    public Person getPerson(@PathVariable("userId") Long userId) {
-        return personService.findPersonById(userId);
+    public PersonDto getPerson(@PathVariable("userId") Long userId) {
+        return PersonMapper.toPersonDto(personService.findPersonById(userId));
     }
 
     @GetMapping("/{userId}/conversations")
-    public Set<Conversation> getConversations(@PathVariable Long userId) {
+    public List<ConversationSummaryDto> getConversations(@PathVariable("userId") Long userId) {
         Person user = personService.findPersonById(userId);
-        return user.getConversations();
+        return ConvesationMapper.toConversationSummaryDtoList(user.getConversations());
     }
 }

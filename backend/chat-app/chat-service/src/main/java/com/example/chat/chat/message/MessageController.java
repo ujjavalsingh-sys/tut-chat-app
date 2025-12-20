@@ -13,12 +13,12 @@ public class MessageController {
     }
 
     @PostMapping
-    public Message createMessage(@RequestBody CreateMessageRequest request) {
-        return messageService.sendMessage(request.conversationId(),request.senderId(), request.text());
+    public MessageDto createMessage(@RequestBody CreateMessageRequest request) {
+        return MessageMapper.toDto(messageService.sendMessage(request.conversationId(),request.senderId(), request.text()));
     }
 
     @GetMapping("/{conversationId}")
-    public List<Message> getAllMessages(@PathVariable Long conversationId) {
-        return messageService.getMessages(conversationId);
+    public List<MessageDto> getAllMessages(@PathVariable Long conversationId) {
+        return MessageMapper.toDtoList(messageService.getMessages(conversationId));
     }
 }

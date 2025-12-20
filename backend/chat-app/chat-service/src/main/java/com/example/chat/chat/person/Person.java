@@ -1,10 +1,11 @@
 package com.example.chat.chat.person;
 
 import com.example.chat.chat.conversation.Conversation;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,10 +18,9 @@ public class Person {
     }
 
     @ManyToMany(mappedBy = "participants")
-    @JsonManagedReference
-    private Set<Conversation> conversations = new HashSet<>();
+    private List<Conversation> conversations = new ArrayList<>();
 
-    public Set<Conversation> getConversations() {
+    public List<Conversation> getConversations() {
         return conversations;
     }
 

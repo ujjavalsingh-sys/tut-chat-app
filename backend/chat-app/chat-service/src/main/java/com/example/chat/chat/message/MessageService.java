@@ -31,7 +31,7 @@ public class MessageService {
             sender = personService.createPerson(senderId);
         }
         sender.getConversations().add(conversation);
-        conversation.getParticipants().add(sender);
+        conversation.addParticipant(sender);
         Message message = new Message(sender, text, conversation);
         return messageRepository.save(message);
     }

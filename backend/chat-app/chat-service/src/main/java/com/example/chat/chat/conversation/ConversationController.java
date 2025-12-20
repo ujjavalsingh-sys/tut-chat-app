@@ -17,13 +17,8 @@ public class ConversationController {
         return conversationService.createConversation();
     }
 
-    @GetMapping
-    public List<Conversation> getAllConversations() {
-        return conversationService.getAllConversations();
-    }
-
     @GetMapping("/{id}")
-    public Conversation getConversationById(@PathVariable Long id) {
-        return conversationService.getConversationById(id);
+    public ConversationDto getConversationById(@PathVariable("id") Long id) {
+        return ConvesationMapper.toConversationDto(conversationService.getConversationById(id));
     }
 }
