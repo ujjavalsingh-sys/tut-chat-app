@@ -10,6 +10,15 @@
     </parent>
 
     <artifactId>user-service</artifactId>
+    <!--  JAR executable for deployment  -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <!--    REST controllers, JSON serialization, embedded Tomcat    -->

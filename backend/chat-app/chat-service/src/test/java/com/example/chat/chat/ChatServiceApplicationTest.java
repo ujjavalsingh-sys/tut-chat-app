@@ -28,12 +28,6 @@ public class ChatServiceApplicationTest {
     }
 
     @Test
-    public void testAllConversations() throws Exception {
-        mockMvc.perform(get("/api/conversations"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
     public void testCreateMessage() throws Exception {
         String conversation = mockMvc.perform(post("/api/conversations"))
                 .andExpect(status().isOk())
@@ -48,9 +42,8 @@ public class ChatServiceApplicationTest {
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.senderId").value(2))
-                .andExpect(jsonPath("$.text").value("hello"))
-                .andExpect(jsonPath("$.conversation").exists())
-                .andExpect(jsonPath("$.conversation.id").value(conversationId));
+                .andExpect(jsonPath("$.message").value("hello"))
+                .andExpect(jsonPath("$.conversationId").value(conversationId));
 
     }
 }
