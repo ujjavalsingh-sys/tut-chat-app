@@ -1,0 +1,16 @@
+version: "1.0"
+
+services:
+  chat-service:
+    build:
+      context: .
+      dockerfile: chat-service/Dockerfile
+    ports:
+      - "8081:8081"
+
+  user-service:
+    build:
+      context: .
+      dockerfile: user-service/Dockerfile
+    ports:
+      - "8082:8082"
