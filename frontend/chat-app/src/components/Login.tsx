@@ -1,14 +1,19 @@
 import { useNavigate } from "react-router";
+import { registerUser } from "../api/api";
+import { useRef } from "react";
 
 export const Login = () => {
     const navigate = useNavigate()
+    const usernameRef = useRef(null);
+    const passwordRef = useRef(null);
 
     const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         navigate("/dashboard");
     };
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
+        const postResponse = await registerUser(usernameRef.current.value, passwordRef.current.value);
         navigate("/dashboard");
     };
 
@@ -25,6 +30,7 @@ export const Login = () => {
             type="text"
             placeholder="Your name"
             className="input input-bordered"
+            ref={usernameRef}
             autoFocus
         />
         </div>
@@ -37,6 +43,7 @@ export const Login = () => {
             type="password"
             placeholder="password"
             className="input input-bordered"
+            ref={passwordRef}
         />
         </div>
 

@@ -10,25 +10,22 @@ export const UserList = () => {
     return (
         <ul className="list bg-base-100 shadow-md">
         
-        <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">Users</li>
-        
-        <li className="list-row rounded-none border-b border-gray-200">
-            <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/1@94.webp"/></div>
-            <div>
-                <div>Dio Lupa</div>
-                <div className="text-xs uppercase font-semibold opacity-60">Remaining Reason</div>
-            </div>
-        </li>
-        
-        <li className="list-row">
-            <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/1@94.webp"/></div>
-            <div>
-            <div>Dio Lupa</div>
-            <div className="text-xs uppercase font-semibold opacity-60">Remaining Reason</div>
-            </div>
-        </li>
-        
-       
+        <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">Users: {data.length.toString()}</li>
+
+        {
+            data.length == 0
+            ? <li className="list-row"><i>No user found</i></li>
+            : data.map(({id, username }) => (
+                <li key={id} className="list-row rounded-none border-b border-gray-200">
+                    <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/1@94.webp"/></div>
+                    <div>
+                        <div>{username}</div>
+                        <div className="text-xs uppercase font-semibold opacity-60">Remaining Reason</div>
+                    </div>
+                </li>
+            ))
+        }
+
         </ul>
     )
 }
