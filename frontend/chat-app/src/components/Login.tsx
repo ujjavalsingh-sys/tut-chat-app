@@ -1,37 +1,53 @@
+import { useNavigate } from "react-router";
+
 export const Login = () => {
-  return (
-    <form className="card bg-base-200 shadow-xl p-6 space-y-4 w-96 mx-auto mt-10">
-      <h2 className="text-xl font-bold">Chat App</h2>
+    const navigate = useNavigate()
 
-      <div className="form-control">
+    const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        alert("logged in");
+        navigate("/dashboard");
+    };
+
+    const handleRegister = () => {
+        alert("Registered");
+        navigate("/dashboard");
+    };
+
+    return (
+    <form className="card bg-base-200 shadow-xl p-6 space-y-4 w-96 mx-auto mt-10" 
+            onSubmit={handleLogin}>
+        <h2 className="text-xl font-bold">Chat App</h2>
+
+        <div className="form-control">
         <label className="label">
-          <span className="label-text">Username</span>
+            <span className="label-text">Username</span>
         </label>
         <input
-          type="text"
-          placeholder="Your name"
-          className="input input-bordered"
-          autoFocus
+            type="text"
+            placeholder="Your name"
+            className="input input-bordered"
+            autoFocus
         />
-      </div>
+        </div>
 
-      <div className="form-control">
+        <div className="form-control">
         <label className="label">
-          <span className="label-text">Password</span>
+            <span className="label-text">Password</span>
         </label>
         <input
-          type="password"
-          placeholder="password"
-          className="input input-bordered"
+            type="password"
+            placeholder="password"
+            className="input input-bordered"
         />
-      </div>
+        </div>
 
         <div className="flex justify-center space-x-2">
         <button type="submit" className="btn btn-primary">
-            Register
-        </button>
-        <button type="submit" className="btn">
             Login
+        </button>
+        <button type="button" className="btn" onClick={handleRegister}>
+            Register
         </button>
         </div>
     </form>
