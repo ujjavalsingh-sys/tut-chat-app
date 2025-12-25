@@ -5,19 +5,17 @@ export const Login = () => {
 
     const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        alert("logged in");
         navigate("/dashboard");
     };
 
     const handleRegister = () => {
-        alert("Registered");
         navigate("/dashboard");
     };
 
     return (
     <form className="card bg-base-200 shadow-xl p-6 space-y-4 w-96 mx-auto mt-10" 
             onSubmit={handleLogin}>
-        <h2 className="text-xl font-bold">Chat App</h2>
+        <h2 className="text-xl font-bold">Chat On - a tutorial chat app</h2>
 
         <div className="form-control">
         <label className="label">

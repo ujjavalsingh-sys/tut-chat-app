@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route index element={ <Login /> } />
         <Route path='dashboard' element={ <Dashboard />}>
-          <Route index element={ <UserList />} />
+          {/* <Route index element={ <UserList />} /> */}
         </Route>
       </Routes>
     </BrowserRouter>
