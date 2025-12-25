@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { registerUser } from "../api/api";
+import { loginUser, registerUser } from "../api/api";
 import { useRef } from "react";
 
 export const Login = () => {
@@ -7,14 +7,27 @@ export const Login = () => {
     const usernameRef = useRef(null);
     const passwordRef = useRef(null);
 
-    const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        navigate("/dashboard");
+        if (usernameRef.current && passwordRef.current) {
+            const postResponse = await loginUser(usernameRef.current.value, passwordRef.current.value);
+            if (!postResponse) {
+                alert("No response from API");
+            }
+            else if (postResponse.error) {
+                alert(`${postResponse.error}: ${postResponse.message}`)
+            }
+            else {
+                navigate("/dashboard");
+            }
+        }
     };
 
     const handleRegister = async () => {
-        const postResponse = await registerUser(usernameRef.current.value, passwordRef.current.value);
-        navigate("/dashboard");
+        if (usernameRef.current && passwordRef.current) {
+            const postResponse = await registerUser(usernameRef.current.value, passwordRef.current.value);
+            navigate("/dashboard");
+        }
     };
 
     return (

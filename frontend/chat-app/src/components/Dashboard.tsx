@@ -38,7 +38,7 @@ export const Dashboard = () => {
                     </div>
                     )
                 }
-                <div className="flex-1 bg-gray-300">
+                <div className="flex-1">
                     <Outlet />
                 </div>
             </div>

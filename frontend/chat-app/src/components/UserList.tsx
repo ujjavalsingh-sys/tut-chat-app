@@ -17,7 +17,8 @@ export const UserList = () => {
             ? <li className="list-row"><i>No user found</i></li>
             : data.map(({id, username }) => (
                 <li key={id} className="list-row rounded-none border-b border-gray-200">
-                    <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/1@94.webp"/></div>
+                    {/* <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/1@94.webp"/></div> */}
+                    <div className="text-4xl font-thin opacity-30 tabular-nums">{id}</div>
                     <div>
                         <div>{username}</div>
                         <div className="text-xs uppercase font-semibold opacity-60">Remaining Reason</div>
