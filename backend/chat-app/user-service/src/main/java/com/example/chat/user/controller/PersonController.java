@@ -18,7 +18,7 @@ public class PersonController {
 
     @PostMapping("/register")
     public Person registerUser(@RequestBody NewPersonRequest request) {
-        Person person = new Person(request.username(), request.password());
+        Person person = new Person(request.firstname(), request.lastname(), request.username(), request.password());
         return personService.saveUser(person);
     }
 

@@ -25,8 +25,20 @@ public class Person {
         return passwordHash;
     }
 
+    private String firstName;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    private String lastName;
+    public String getLastName() {
+        return lastName;
+    }
+
     public Person() {}
-    public Person(String username, String passwordHash) {
+    public Person(String firstName, String lastName, String username, String passwordHash) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.username = username;
         this.passwordHash = passwordHash;
     }
