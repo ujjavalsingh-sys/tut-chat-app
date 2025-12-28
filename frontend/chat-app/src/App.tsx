@@ -5,19 +5,25 @@ import { Dashboard } from "./components/Dashboard";
 import { MessageList } from "./components/MessageList";
 import { ErrorBoundary } from "./errorhandling/ErrorBoundary";
 import { ErrorProvider } from "./errorhandling/ErrorProvider";
+import { DashboardNoSelection } from "./components/DashboardNoSelection";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 function App() {
   return (
     <ErrorBoundary>
       <ErrorProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route index element={<Login />} />
-            <Route path="dashboard" element={<Dashboard />}>
-              <Route index element={<MessageList />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+        <Provider store={store}>
+          <BrowserRouter>
+            <Routes>
+              <Route index element={<Login />} />
+              <Route path="dashboard" element={<Dashboard />}>
+                <Route index element={<DashboardNoSelection />} />
+                <Route path="person/:id" element={<MessageList />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </Provider>
       </ErrorProvider>
     </ErrorBoundary>
   );

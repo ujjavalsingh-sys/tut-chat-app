@@ -12,6 +12,15 @@ export const fetchUsers = async (path: string): Promise<Person[]> => {
     return res.json();
 }
 
+export interface Conversation {
+    
+}
+
+export const fetchConversations = async (userId: number): Promise<Person[]> => {
+    const res = await fetch(`${api_url}/users/${userId}/conversations`);
+    return res.json();
+}
+
 export const registerUser = async (requestData: string): Promise<Person> => {
     const res = await fetch(`${api_url}/api/users/register`, {
         method: "POST",

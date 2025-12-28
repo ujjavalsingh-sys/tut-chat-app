@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { loginUser, registerUser } from "../api/api";
 import { useErrorHandler } from "../errorhandling/useErrorHandler";
+import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { setAuthenticatedUser } from "../store/users/userSlice";
 
 type Mode = "login" | "register";
 type ApiState = "pending" | "error" | "none";
@@ -46,18 +49,24 @@ export const Login: React.FC = () => {
     setRegisterData({ ...registerData, [e.target.name]: e.target.value });
   };
 
-  const { notifyError } = useErrorHandler();
+  const { notifyError, clearError } = useErrorHandler();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      setApiState("pending");
-      if (mode === "login") {
-        await loginUser(loginData.username, loginData.password);
-      } else {
-        await registerUser(JSON.stringify(registerData));
+      if (apiState === "error") {
+        clearError();
       }
+      setApiState("pending");
+      const authUser =
+        mode === "login"
+          ? await loginUser(loginData.username, loginData.password)
+          : await registerUser(JSON.stringify(registerData));
+      dispatch(setAuthenticatedUser(authUser));
       setApiState("none");
+      navigate("/dashboard");
     } catch (error) {
       setApiState("error");
       if (error instanceof Error) {

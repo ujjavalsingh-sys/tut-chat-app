@@ -3,6 +3,7 @@ import { ErrorToast } from "./ErrorToast";
 
 type ErrorContextData = {
   notifyError: (error: Error) => void;
+  clearError: () => void;
 };
 
 export const ErrorContext = React.createContext<ErrorContextData | null>(null);
@@ -18,10 +19,14 @@ export const ErrorProvider: React.FC<{ children: ReactNode }> = ({
     setErrorMessage(error.message);
   };
 
+  const clearError = () => {
+    setErrorMessage(undefined);
+  };
+
   return (
     <>
       <ErrorToast errorMessage={errorMessage} />
-      <ErrorContext.Provider value={{ notifyError }}>
+      <ErrorContext.Provider value={{ notifyError, clearError }}>
         {children}
       </ErrorContext.Provider>
     </>
