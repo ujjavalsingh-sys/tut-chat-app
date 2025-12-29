@@ -1,10 +1,13 @@
 import { Outlet, useNavigate } from "react-router";
-import { UserList } from "./UserList";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { selectAuthUserName } from "../store/users/userSelectors";
+import { SidePane } from "./SidePane";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
   const [isSidePanelVisible, setIsSidePanelVisible] = useState(true);
+  const authUserName = useSelector(selectAuthUserName);
 
   const handleToggleSidePanel = () => {
     setIsSidePanelVisible(!isSidePanelVisible);
@@ -38,7 +41,9 @@ export const Dashboard = () => {
           </button>
         </div>
         <div className="flex-1">
-          <a className="btn btn-ghost text-xl">Chat On</a>
+          <a className="btn btn-ghost text-xl">
+            Chat On <i>{authUserName}</i>
+          </a>
         </div>
         <div className="flex-none">
           <button className="btn btn-square btn-ghost" onClick={handleLogout}>
@@ -62,7 +67,7 @@ export const Dashboard = () => {
       <div className="flex flex-row flex-1 overflow-auto">
         {isSidePanelVisible && (
           <div className="w-64 overflow-auto">
-            <UserList />
+            <SidePane />
           </div>
         )}
         <div className="flex-1 bg-gray-100">

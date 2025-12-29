@@ -4,21 +4,10 @@ import { useErrorHandler } from "../errorhandling/useErrorHandler";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { setAuthenticatedUser } from "../store/users/userSlice";
+import type { LoginForm, RegisterForm } from "../api/types";
 
 type Mode = "login" | "register";
 type ApiState = "pending" | "error" | "none";
-
-interface LoginForm {
-  username: string;
-  password: string;
-}
-
-interface RegisterForm {
-  firstname: string;
-  lastname: string;
-  username: string;
-  password: string;
-}
 
 export const Login: React.FC = () => {
   const [mode, setMode] = useState<Mode>("login");
@@ -62,8 +51,8 @@ export const Login: React.FC = () => {
       setApiState("pending");
       const authUser =
         mode === "login"
-          ? await loginUser(loginData.username, loginData.password)
-          : await registerUser(JSON.stringify(registerData));
+          ? await loginUser(loginData)
+          : await registerUser(registerData);
       dispatch(setAuthenticatedUser(authUser));
       setApiState("none");
       navigate("/dashboard");

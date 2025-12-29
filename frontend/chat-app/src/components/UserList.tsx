@@ -9,14 +9,15 @@ import { selectAuthUserId } from "../store/users/userSelectors";
 
 export const UserList = () => {
   const { data, error } = useSWR("/api/users", fetchUsers);
+  const authUserId = useSelector(selectAuthUserId);
+
   if (error) return <div> {error.toString()}</div>;
   if (!data) return "Loading";
 
-  const authUserId = useSelector(selectAuthUserId);
   const listItems: NavigableListElement[] = data.map(
     ({ id, username, firstName, lastName }) => ({
       id,
-      title: `${firstName} ${lastName}${id == authUserId ? " (You)" : ""}`,
+      title: `${firstName} ${lastName}${id == authUserId ? " [You]" : ""}`,
       subTitle: username,
     })
   );
