@@ -13,7 +13,13 @@ spring:
           uri: http://chat-service:8081
           predicates:
             - Path=/api/conversations/**
+        - id: chat-service
+          uri: http://chat-service:8081
+          predicates:
             - Path=/api/messages/**
+        - id: chat-service
+          uri: http://chat-service:8081
+          predicates:
             - Path=/api/users/**
       globalcors:
         corsConfigurations:

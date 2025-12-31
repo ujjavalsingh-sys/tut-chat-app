@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ChatServiceApplication" type="Application" factoryName="Application">
+    <envs>
+      <env name="DB_HOST" value="localhost" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="com.example.chat.chat.ChatServiceApplication" />
+    <module name="chat-service" />
+    <option name="VM_PARAMETERS" value="-Duser.timezone=UTC" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

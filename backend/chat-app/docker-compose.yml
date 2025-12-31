@@ -9,10 +9,13 @@ services:
       - "8081:8081"
     depends_on:
       - postgres
+      - user-service
     environment:
+      DB_HOST: postgres
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/chatdb
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: password
+      USER_SERVICE_URL: http://user-service:8082
 
   user-service:
     build:
@@ -23,6 +26,7 @@ services:
     depends_on:
       - postgres
     environment:
+      DB_HOST: postgres
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/usersdb
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: password

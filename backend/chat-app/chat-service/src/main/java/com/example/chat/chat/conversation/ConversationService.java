@@ -15,8 +15,8 @@ public class ConversationService {
         Conversation conversation = new Conversation();
         return conversationRepository.save(conversation);
     }
-    public List<Conversation> getAllConversations() {
-        return conversationRepository.findAll();
+    public List<Conversation> getConversationsByUserId(Long userId) {
+        return conversationRepository.findByParticipants_Id(userId);
     }
 
     public Conversation getConversationById(Long id) {
