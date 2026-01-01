@@ -5,6 +5,7 @@ import com.example.chat.chat.person.PersonFullDto;
 import com.example.chat.chat.person.PersonService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -38,6 +39,24 @@ public class ConversationController {
 
     @GetMapping()
     public List<ConversationSummaryDto> getConversations(@RequestParam("participant") Long participantId) {
-        return  ConvesationMapper.toConversationSummaryDtoList(conversationService.getConversationsByUserId(participantId));
+        List<Conversation> conversations = conversationService.getConversationsByUserId(participantId);
+        List<ConversationSummaryDto> conversationSummaryDtos = new ArrayList<>();
+        for (Conversation conversation : conversations) {
+            List<Person> others = conversation.getParticipants().stream().filter(person -> !person.getId().equals(participantId)).toList();
+            String conversationName = "";
+            if (others.size() == 0) {
+                PersonFullDto personFullDto = personService.findPersonFullDtoById(participantId);
+                conversationName = personFullDto.firstName() + " " + personFullDto.lastName();
+            }
+            else  {
+                List<String> othersNames = others.stream().map(person -> {
+                    PersonFullDto personFullDto = personService.findPersonFullDtoById(person.getId());
+                    return personFullDto.firstName() + " " + personFullDto.lastName();
+                }).toList();
+                conversationName = String.join(", ", othersNames);
+            }
+            conversationSummaryDtos.add(ConvesationMapper.toConversationSummaryDto(conversation, conversationName));
+        }
+        return conversationSummaryDtos;
     }
 }

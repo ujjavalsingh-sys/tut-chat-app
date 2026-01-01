@@ -5,6 +5,7 @@ import com.example.chat.chat.person.PersonDto;
 import java.util.List;
 
 public record ConversationSummaryDto(
+        String name,
         Long conversationId,
         Integer messageCount,
         List<PersonDto> participants

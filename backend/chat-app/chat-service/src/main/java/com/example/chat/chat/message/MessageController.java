@@ -14,11 +14,11 @@ public class MessageController {
 
     @PostMapping
     public MessageDto createMessage(@RequestBody CreateMessageRequest request) {
-        return MessageMapper.toDto(messageService.sendMessage(request.conversationId(),request.senderId(), request.text()));
+        return MessageMapper.toDto(messageService.sendMessage(request.conversationId(), request.participantIds(), request.senderId(), request.text()));
     }
 
     @GetMapping("/{conversationId}")
-    public List<MessageDto> getAllMessages(@PathVariable Long conversationId) {
+    public List<MessageDto> getAllMessages(@PathVariable("conversationId") Long conversationId) {
         return MessageMapper.toDtoList(messageService.getMessages(conversationId));
     }
 }

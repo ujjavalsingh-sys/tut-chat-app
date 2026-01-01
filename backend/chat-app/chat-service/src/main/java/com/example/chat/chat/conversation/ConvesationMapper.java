@@ -15,17 +15,12 @@ public class ConvesationMapper {
         );
     }
 
-    public static ConversationSummaryDto toConversationSummaryDto(Conversation conversation) {
+    public static ConversationSummaryDto toConversationSummaryDto(Conversation conversation, String name) {
         return new ConversationSummaryDto(
+                name,
                 conversation.getId(),
                 conversation.getMessages().size(),
                 PersonMapper.toPersonDtoList(conversation.getParticipants())
         );
-    }
-
-    public static List<ConversationSummaryDto> toConversationSummaryDtoList(
-            List<Conversation> conversations
-    ) {
-        return conversations.stream().map(ConvesationMapper::toConversationSummaryDto).toList();
     }
 }

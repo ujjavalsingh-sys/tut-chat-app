@@ -8,6 +8,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Optional;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -36,7 +39,7 @@ public class ChatServiceApplicationTest {
                 .getResponse()
                 .getContentAsString();
         Long conversationId = objectMapper.readTree(conversation).get("id").asLong();
-        CreateMessageRequest request = new CreateMessageRequest(conversationId, 2L, "hello");
+        CreateMessageRequest request = new CreateMessageRequest(Optional.of(conversationId), 2L, "hello");
         mockMvc.perform(post("/api/messages")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
