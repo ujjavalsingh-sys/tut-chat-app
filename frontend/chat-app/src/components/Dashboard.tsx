@@ -1,8 +1,12 @@
 import { Outlet, useNavigate } from "react-router";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { selectAuthUserName } from "../store/users/userSelectors";
-import { SidePane } from "./SidePane";
+import { selectAuthUserName } from "../store/users/authUserSelectors";
+import { SidePane } from "./sidepane/SidePane";
+import {
+  ArrowLeftStartOnRectangleIcon,
+  Bars3Icon,
+} from "@heroicons/react/16/solid";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
@@ -24,20 +28,7 @@ export const Dashboard = () => {
             className="btn btn-square btn-ghost"
             onClick={handleToggleSidePanel}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              className="inline-block h-5 w-5 stroke-current"
-            >
-              {" "}
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              ></path>{" "}
-            </svg>
+            <Bars3Icon className="size-6" />
           </button>
         </div>
         <div className="flex-1">
@@ -47,20 +38,7 @@ export const Dashboard = () => {
         </div>
         <div className="flex-none">
           <button className="btn btn-square btn-ghost" onClick={handleLogout}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              className="inline-block h-5 w-5 stroke-current"
-            >
-              {" "}
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                strokeWidth="2"
-                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6A2.25 2.25 0 005.25 5.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
-              />{" "}
-            </svg>
+            <ArrowLeftStartOnRectangleIcon className="size-6" />
           </button>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { loginUser, registerUser } from "../api/api";
 import { useErrorHandler } from "../errorhandling/useErrorHandler";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { setAuthenticatedUser } from "../store/users/userSlice";
+import { setAuthenticatedUser } from "../store/users/authUserSlice";
 import type { LoginForm, RegisterForm } from "../api/types";
 
 type Mode = "login" | "register";
