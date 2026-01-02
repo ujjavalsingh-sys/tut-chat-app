@@ -32,8 +32,12 @@ export const MessageContainer = ({
   return (
     <form className="flex flex-col h-full" onSubmit={handleSendMessage}>
       <div className="relative h-full flex flex-1 justify-center overflow-auto">
-        <Background />
-        {children}
+        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+          <Background />
+        </div>
+        <div className="relative z-10 flex-1 overflow-auto w-full">
+          {children}
+        </div>
       </div>
       <div className="flex flex-row bg-base-100 shadow-sm p-1">
         <input
@@ -52,6 +56,7 @@ export const MessageContainer = ({
 
 // prettier-ignore
 const Background = () => (
-  <div>
-  </div>
+  <>
+    <img className="w-full h-full object-cover object-top" src="/eiffel.jpg" />
+  </>
 );

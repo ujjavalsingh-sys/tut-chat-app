@@ -19,7 +19,7 @@ export const ChatBubble = ({
   return (
     <div className={`px-5 chat ${isMyMessage ? "chat-end" : "chat-start"}`}>
       <div className="chat-image avatar">
-        <div className="w-10 rounded-full border-1 flex justify-center items-center">
+        <div className="w-10 rounded-full border-1 bg-black/20 flex justify-center items-center">
           {/* <img
             alt="Tailwind CSS chat bubble component"
             src="https://img.daisyui.com/images/profile/demo/kenobee@192.webp"
