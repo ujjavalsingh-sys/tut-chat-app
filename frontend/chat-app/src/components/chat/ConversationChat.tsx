@@ -6,8 +6,7 @@ import useSWR, { mutate } from "swr";
 import { ChatBubble } from "./ChatBubble";
 import type { CreateMessageRequest } from "../../api/types";
 import { fetchMessages, sendMessageRequest } from "../../api/messageClient";
-import { fetchConversations } from "../../api/conversationClient";
-import { useMemo } from "react";
+import { fetchConversation } from "../../api/conversationClient";
 
 export const ConversationChat = () => {
   const authUserId = useSelector(selectAuthUserId);
@@ -28,13 +27,9 @@ const ConversationChatAuthenticated = ({
     `/messages/${conversationId}`,
     fetchMessages
   );
-  const { data: convos } = useSWR(
-    `/conversations?participant=${authUserId}`,
-    fetchConversations
-  );
-  const conversation = useMemo(
-    () => convos?.find(({ conversationId: cId }) => cId === conversationId),
-    [convos, conversationId]
+  const { data: conversation } = useSWR(
+    `/conversations/${conversationId}?authUserId=${authUserId}`,
+    fetchConversation
   );
 
   if (!conversation) {
@@ -62,13 +57,22 @@ const ConversationChatAuthenticated = ({
   return (
     <MessageContainer sendMessage={sendMessage}>
       <div className="flex flex-col flex-1">
-        {messages.map((message) => (
-          <ChatBubble
-            key={message.messageId}
-            message={message}
-            participants={conversation.participants}
-            authUserId={authUserId}
-          />
+        {messages.map((message, index) => (
+          <>
+            {index == 0 ||
+              (message.creationDate.toDateString() !==
+                messages[index - 1].creationDate.toDateString() && (
+                <div className="badge m-2 self-center">
+                  {message.creationDate.toDateString()}
+                </div>
+              ))}
+            <ChatBubble
+              key={message.messageId}
+              message={message}
+              participants={conversation.participants}
+              authUserId={authUserId}
+            />
+          </>
         ))}
       </div>
     </MessageContainer>

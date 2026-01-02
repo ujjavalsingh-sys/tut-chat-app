@@ -19,17 +19,23 @@ export const ChatBubble = ({
   return (
     <div className={`px-5 chat ${isMyMessage ? "chat-end" : "chat-start"}`}>
       <div className="chat-image avatar">
-        <div className="w-10 rounded-full">
-          <img
+        <div className="w-10 rounded-full border-1 flex justify-center items-center">
+          {/* <img
             alt="Tailwind CSS chat bubble component"
             src="https://img.daisyui.com/images/profile/demo/kenobee@192.webp"
-          />
+          /> */}
+          <div className="text-l font-thin opacity-70 tabular-nums">
+            {sender.firstName[0]}
+            {sender.lastName[0]}
+          </div>
         </div>
       </div>
       <div className="chat-header">
         {sender.firstName} {sender.lastName}
         <time className="text-xs opacity-50">
-          {message.creationDate.toLocaleString()}
+          {message.creationDate.toLocaleTimeString("en-US", {
+            timeStyle: "short",
+          })}
         </time>
       </div>
       <div className={`chat-bubble ${isMyMessage ? "bg-blue-100" : ""}`}>

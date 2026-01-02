@@ -1,5 +1,5 @@
 import { Outlet, useNavigate } from "react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectAuthUserName } from "../store/users/authUserSelectors";
 import { SidePane } from "./sidepane/SidePane";
@@ -12,13 +12,22 @@ export const Dashboard = () => {
   const navigate = useNavigate();
   const [isSidePanelVisible, setIsSidePanelVisible] = useState(true);
   const authUserName = useSelector(selectAuthUserName);
+  const logout = () => {
+    navigate("/");
+  };
+
+  useEffect(() => {
+    if (!authUserName) {
+      logout();
+    }
+  }, [authUserName]);
 
   const handleToggleSidePanel = () => {
     setIsSidePanelVisible(!isSidePanelVisible);
   };
 
   const handleLogout = () => {
-    navigate("/");
+    logout();
   };
   return (
     <div className="flex h-screen flex-col">

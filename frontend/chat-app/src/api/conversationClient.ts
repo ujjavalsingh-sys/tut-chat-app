@@ -7,3 +7,9 @@ export const fetchConversations = async (
 ): Promise<Conversation[]> => {
   return getRequest<Conversation[]>(`${api_url}/api${urlSuffix}`);
 };
+
+export const fetchConversation = async (
+  urlSuffix: string
+): Promise<Conversation> => {
+  return getRequest<Conversation>(`${api_url}/api${urlSuffix}`);
+};
