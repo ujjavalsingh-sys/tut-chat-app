@@ -1,17 +1,17 @@
 import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router";
 import useSWR, { mutate } from "swr";
-import { fetchUsers } from "../../api/api";
+import { fetchUsers } from "../../api/usersClient";
 import { MessageContainer } from "./MessageContainer";
-import type { ConversationSummary, MessageRequest } from "../../api/types";
+import type { Conversation, CreateMessageRequest } from "../../api/types";
 import { useSelector } from "react-redux";
-import { selectAuthUserId } from "../../store/users/authUserSelectors";
+import { selectAuthUser } from "../../store/users/authUserSelectors";
 import { sendMessageRequest } from "../../api/messageClient";
 
 export const NewChat = () => {
   const { id } = useParams();
   const userId = Number(id);
-  const authUserId = useSelector(selectAuthUserId);
+  const authUser = useSelector(selectAuthUser);
   const navigate = useNavigate();
   const { data: users } = useSWR("/api/users", fetchUsers);
   const person = useMemo(
@@ -21,22 +21,22 @@ export const NewChat = () => {
 
   const sendMessage = async (message: string) => {
     console.log(message);
-    if (authUserId) {
-      const participantIds = [{ personId: userId }, { personId: authUserId }];
-      const request: MessageRequest = {
+    if (authUser && person) {
+      const participantIds = [userId, authUser.id];
+      const request: CreateMessageRequest = {
         participantIds,
-        senderId: authUserId,
+        senderId: authUser.id,
         text: message,
       };
       const returnedMessage = await sendMessageRequest(request);
       const { conversationId } = returnedMessage;
-      const localConv: ConversationSummary = {
-        name: `${person?.firstName} ${person?.lastName}`,
+      const localConv: Conversation = {
         conversationId,
-        messageCount: 1,
-        participants: participantIds,
+        conversationName: `${person?.firstName} ${person?.lastName}`,
+        latestMessage: returnedMessage,
+        participants: [person, authUser],
       };
-      mutate(`/conversations?participant=${authUserId}`, (convos = []) => [
+      mutate(`/conversations?participant=${authUser.id}`, (convos = []) => [
         localConv,
         ...convos,
       ]);

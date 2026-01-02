@@ -28,7 +28,9 @@ export const ChatBubble = ({
       </div>
       <div className="chat-header">
         {sender.firstName} {sender.lastName}
-        <time className="text-xs opacity-50">12:45</time>
+        <time className="text-xs opacity-50">
+          {message.creationDate.toLocaleString()}
+        </time>
       </div>
       <div className={`chat-bubble ${isMyMessage ? "bg-blue-100" : ""}`}>
         {message.message}

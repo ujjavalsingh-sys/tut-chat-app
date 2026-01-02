@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { loginUser, registerUser } from "../api/api";
+import { loginUser, registerUser } from "../api/usersClient";
 import { useErrorHandler } from "../errorhandling/useErrorHandler";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { setAuthenticatedUser } from "../store/users/authUserSlice";
-import type { LoginForm, RegisterForm } from "../api/types";
+import type { LoginRequest, NewPersonRequest } from "../api/types";
 
 type Mode = "login" | "register";
 type ApiState = "pending" | "error" | "none";
@@ -12,11 +12,11 @@ type ApiState = "pending" | "error" | "none";
 export const Login: React.FC = () => {
   const [mode, setMode] = useState<Mode>("login");
   const [apiState, setApiState] = useState<ApiState>("none");
-  const [loginData, setLoginData] = useState<LoginForm>({
+  const [loginData, setLoginData] = useState<LoginRequest>({
     username: "",
     password: "",
   });
-  const [registerData, setRegisterData] = useState<RegisterForm>({
+  const [registerData, setRegisterData] = useState<NewPersonRequest>({
     firstname: "",
     lastname: "",
     username: "",

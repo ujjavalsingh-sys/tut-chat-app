@@ -1,18 +1,18 @@
+import type { Conversation } from "../../api/types";
 import {
   NavigableList,
   type NavigableListElement,
 } from "../../shared/NavigableList";
-import type { ConversationSummary } from "../../api/types";
 
 interface ConversationListProps {
-  conversations: ConversationSummary[];
+  conversations: Conversation[];
 }
 export const ConversationList = ({ conversations }: ConversationListProps) => {
   const listItems: NavigableListElement[] = conversations.map(
-    ({ name, conversationId, messageCount }) => ({
+    ({ conversationName, conversationId, latestMessage }) => ({
       id: conversationId,
-      title: name,
-      subTitle: messageCount.toString(),
+      title: conversationName,
+      subTitle: latestMessage.message,
     })
   );
 

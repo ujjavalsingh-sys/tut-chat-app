@@ -1,9 +1,9 @@
-export interface LoginForm {
+export interface LoginRequest {
   username: string;
   password: string;
 }
 
-export interface RegisterForm {
+export interface NewPersonRequest {
   firstname: string;
   lastname: string;
   username: string;
@@ -17,9 +17,9 @@ export interface Person {
   lastName: string;
 }
 
-export interface MessageRequest {
+export interface CreateMessageRequest {
   conversationId?: number;
-  participantIds?: PersonId[];
+  participantIds?: number[];
   senderId: number;
   text: string;
 }
@@ -29,10 +29,7 @@ export interface Message {
   senderId: number;
   message: string;
   messageId: number;
-}
-
-interface PersonId {
-  personId: number;
+  creationDate: Date;
 }
 
 export interface ParticipantInfo {
@@ -43,13 +40,7 @@ export interface ParticipantInfo {
 
 export interface Conversation {
   conversationId: number;
-  messages: Message[];
+  conversationName: string;
+  latestMessage: Message;
   participants: ParticipantInfo[];
-}
-
-export interface ConversationSummary {
-  name: string;
-  conversationId: number;
-  messageCount: number;
-  participants: PersonId[];
 }

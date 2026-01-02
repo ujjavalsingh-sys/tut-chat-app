@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { fetchUsers } from "../../api/api";
+import { fetchUsers } from "../../api/usersClient";
 import {
   NavigableList,
   type NavigableListElement,

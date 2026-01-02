@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { selectAuthUserId } from "../../store/users/authUserSelectors";
 import useSWR from "swr";
 import { fetchConversations } from "../../api/conversationClient";
-import type { ConversationSummary } from "../../api/types";
+import type { Conversation } from "../../api/types";
 
 export const SidePane = () => {
   const authUserId = useSelector(selectAuthUserId);
@@ -23,7 +23,7 @@ export const SidePane = () => {
 
 interface SidePaneMainProps {
   authUserId: number;
-  convos: ConversationSummary[];
+  convos: Conversation[];
 }
 const SidePaneMain = ({ authUserId, convos }: SidePaneMainProps) => {
   const [searchText, setSearchText] = useState("");
@@ -34,9 +34,9 @@ const SidePaneMain = ({ authUserId, convos }: SidePaneMainProps) => {
         ids.add(authUserId);
       } else if (participants.length == 2) {
         const directPersonId =
-          participants[0].personId == authUserId
-            ? participants[1].personId
-            : participants[0].personId;
+          participants[0].id == authUserId
+            ? participants[1].id
+            : participants[0].id;
         ids.add(directPersonId);
       }
     }
