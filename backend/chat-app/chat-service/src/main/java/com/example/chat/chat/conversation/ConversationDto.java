@@ -7,7 +7,8 @@ import java.util.List;
 
 public record ConversationDto(
         Long conversationId,
-        List<MessageDto> messages,
+        String conversationName,
+        MessageDto latestMessage,
         List<PersonFullDto> participants
 ) {
 }
