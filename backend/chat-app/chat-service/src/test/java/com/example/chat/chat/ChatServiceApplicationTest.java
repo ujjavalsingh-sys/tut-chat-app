@@ -19,34 +19,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 public class ChatServiceApplicationTest {
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+  @Autowired private ObjectMapper objectMapper;
 
-    @Test
-    public void contextLoads() {
-        assert(mockMvc != null);
-    }
+  @Test
+  public void contextLoads() {
+    assert (mockMvc != null);
+  }
 
-    @Test
-    public void testCreateMessage() throws Exception {
-        String conversation = mockMvc.perform(post("/api/conversations"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").exists())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-        Long conversationId = objectMapper.readTree(conversation).get("id").asLong();
-        CreateMessageRequest request = new CreateMessageRequest(Optional.of(conversationId), 2L, "hello");
-        mockMvc.perform(post("/api/messages")
+  @Test
+  public void testCreateMessage() throws Exception {
+    String conversation =
+        mockMvc
+            .perform(post("/api/conversations"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").exists())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
+    Long conversationId = objectMapper.readTree(conversation).get("id").asLong();
+    CreateMessageRequest request =
+        new CreateMessageRequest(Optional.of(conversationId), Optional.empty(), 2L, "hello");
+    mockMvc
+        .perform(
+            post("/api/messages")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.senderId").value(2))
-                .andExpect(jsonPath("$.message").value("hello"))
-                .andExpect(jsonPath("$.conversationId").value(conversationId));
-
-    }
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.senderId").value(2))
+        .andExpect(jsonPath("$.message").value("hello"))
+        .andExpect(jsonPath("$.conversationId").value(conversationId));
+  }
 }
