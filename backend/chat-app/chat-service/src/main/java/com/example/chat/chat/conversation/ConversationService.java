@@ -1,12 +1,12 @@
 package com.example.chat.chat.conversation;
 
 import com.example.chat.chat.message.MessageService;
-import com.example.chat.chat.person.PersonFullDto;
+import com.example.chat.chat.person.PersonDto;
 import com.example.chat.chat.person.PersonService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 
 @Service
 public class ConversationService {
@@ -43,35 +43,28 @@ public class ConversationService {
         messageService.getLatestMessage(conversation.getId()));
   }
 
-  private List<PersonFullDto> getParticipants(Conversation conversation) {
+  private List<PersonDto> getParticipants(Conversation conversation) {
     return conversation.getParticipantsIds().stream()
-        .map(
-            participantId -> {
-              PersonFullDto dto = personService.findPersonFullDtoById(participantId);
-              if (dto == null) {
-                dto = new PersonFullDto(participantId, null, null);
-              }
-              return dto;
-            })
+        .map(personService::fetchPersonDtoById)
         .toList();
   }
 
   private String getConversationName(Conversation conversation, Long authUserId) {
     List<Long> others =
         conversation.getParticipantsIds().stream()
-            .filter(personId -> !personId.equals(authUserId))
+            .filter(personId -> !Objects.equals(personId, authUserId))
             .toList();
     String conversationName = "";
-    if (others.size() == 0) {
-      PersonFullDto personFullDto = personService.findPersonFullDtoById(authUserId);
-      conversationName = personFullDto.firstName() + " " + personFullDto.lastName();
+    if (others.isEmpty()) {
+      PersonDto personDto = personService.fetchPersonDtoById(authUserId);
+      conversationName = personDto.firstName() + " " + personDto.lastName();
     } else {
       List<String> othersNames =
           others.stream()
               .map(
                   personId -> {
-                    PersonFullDto personFullDto = personService.findPersonFullDtoById(personId);
-                    return personFullDto.firstName() + " " + personFullDto.lastName();
+                    PersonDto personDto = personService.fetchPersonDtoById(personId);
+                    return personDto.firstName() + " " + personDto.lastName();
                   })
               .toList();
       conversationName = String.join(", ", othersNames);
