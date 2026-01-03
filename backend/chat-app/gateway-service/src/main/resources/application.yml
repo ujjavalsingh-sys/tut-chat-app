@@ -24,3 +24,6 @@ spring:
             allowedMethods: "GET,POST,PUT,DELETE,OPTIONS"
             allowedHeaders: "*"
             allowCredentials: true
+jwt:
+  secret:
+    mysupersecretkeyu8n2k3jF9h1zQWn3pV7m+X9lYz2h3k5jF9h1zQWn3pV7m+X9lYz2h3k5jF9h1zQW
