@@ -22,7 +22,7 @@ public class SecurityConfig {
         .authorizeRequests(
             authorizeRequests ->
                 authorizeRequests
-                    .requestMatchers("/api/users/login", "/api/users/register")
+                    .requestMatchers("/api/auth/*")
                     .permitAll()
                     .anyRequest()
                     .authenticated()

@@ -13,12 +13,7 @@ public class JwtService {
     this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
   }
 
-  public boolean validateToken(String token) {
-    try {
-      Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-      return true;
-    } catch (JwtException e) {
-      return false;
-    }
+  public void validateToken(String token) throws JwtException {
+    Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
   }
 }

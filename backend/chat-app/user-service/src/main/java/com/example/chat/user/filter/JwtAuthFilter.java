@@ -1,6 +1,7 @@
 package com.example.chat.user.filter;
 
 import com.example.chat.user.service.JwtService;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,14 +27,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
       String token = authorizationHeader.substring(7);
-      if (jwtService.validateToken(token)) {
-        Long userId = jwtService.getUserIdFromToken(token);
 
-        UsernamePasswordAuthenticationToken authToken =
-            new UsernamePasswordAuthenticationToken(userId, null, null);
+      jwtService.validateToken(token);
 
-        SecurityContextHolder.getContext().setAuthentication(authToken);
-      }
+      Long userId = jwtService.getUserIdFromToken(token);
+
+      UsernamePasswordAuthenticationToken authToken =
+          new UsernamePasswordAuthenticationToken(userId, null, null);
+
+      SecurityContextHolder.getContext().setAuthentication(authToken);
     }
 
     filterChain.doFilter(request, response);

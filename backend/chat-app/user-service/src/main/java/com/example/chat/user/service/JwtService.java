@@ -33,12 +33,7 @@ public class JwtService {
     return Long.valueOf(claims.getSubject());
   }
 
-  public Boolean validateToken(String token) {
-    try {
-      Jwts.parserBuilder().setSigningKey(signKey).build().parseClaimsJws(token);
-      return true;
-    } catch (JwtException e) {
-      return false;
-    }
+  public void validateToken(String token) throws JwtException {
+    Jwts.parserBuilder().setSigningKey(signKey).build().parseClaimsJws(token);
   }
 }
