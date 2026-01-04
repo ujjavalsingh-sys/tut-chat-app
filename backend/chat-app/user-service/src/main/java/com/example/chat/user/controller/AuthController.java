@@ -1,11 +1,14 @@
 package com.example.chat.user.controller;
 
-import com.example.chat.user.dto.AuthResponse;
 import com.example.chat.user.dto.LoginRequest;
 import com.example.chat.user.dto.NewPersonRequest;
+import com.example.chat.user.dto.PersonDto;
 import com.example.chat.user.entity.Person;
+import com.example.chat.user.mapper.PersonMapper;
 import com.example.chat.user.service.JwtService;
 import com.example.chat.user.service.PersonService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,16 +26,29 @@ public class AuthController {
   }
 
   @PostMapping("/register")
-  public AuthResponse registerUser(@RequestBody NewPersonRequest request) {
+  public PersonDto registerUser(
+      @RequestBody NewPersonRequest request, HttpServletResponse response) {
     Person newPerson =
         new Person(request.firstname(), request.lastname(), request.username(), request.password());
     Person person = personService.saveUser(newPerson);
-    return new AuthResponse(jwtService.generateToken(person.getId()), person);
+    response.addCookie(createCookie(jwtService.generateToken(person.getId())));
+    return PersonMapper.toDto(person);
   }
 
   @PostMapping("/login")
-  public AuthResponse loginUser(@RequestBody LoginRequest request) {
+  public PersonDto loginUser(@RequestBody LoginRequest request, HttpServletResponse response) {
     Person person = personService.getUserByUsername(request.username(), request.password());
-    return new AuthResponse(jwtService.generateToken(person.getId()), person);
+    response.addCookie(createCookie(jwtService.generateToken(person.getId())));
+    return PersonMapper.toDto(person);
+  }
+
+  private Cookie createCookie(String authToken) {
+    Cookie cookie = new Cookie("access_token", authToken);
+    cookie.setHttpOnly(true);
+    cookie.setSecure(true);
+    cookie.setPath("/");
+    cookie.setMaxAge(3600);
+    cookie.setAttribute("SameSite", "Strict");
+    return cookie;
   }
 }

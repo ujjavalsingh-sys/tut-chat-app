@@ -1,6 +1,8 @@
 package com.example.chat.user.controller;
 
+import com.example.chat.user.dto.PersonDto;
 import com.example.chat.user.entity.Person;
+import com.example.chat.user.mapper.PersonMapper;
 import com.example.chat.user.service.JwtService;
 import com.example.chat.user.service.PersonService;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +21,12 @@ public class PersonController {
   }
 
   @GetMapping
-  public List<Person> getAllUsers() {
-    return personService.getAllUsers();
+  public List<PersonDto> getAllUsers() {
+    return PersonMapper.toDtoList(personService.getAllUsers());
   }
 
   @GetMapping("/{userId}")
-  public Person getUserById(@PathVariable("userId") Long userId) {
-    return personService.getUserById(userId);
+  public PersonDto getUserById(@PathVariable("userId") Long userId) {
+    return PersonMapper.toDto(personService.getUserById(userId));
   }
 }

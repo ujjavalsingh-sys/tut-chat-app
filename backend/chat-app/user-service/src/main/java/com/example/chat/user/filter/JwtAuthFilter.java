@@ -4,6 +4,7 @@ import com.example.chat.user.service.JwtService;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,21 +24,28 @@ public class JwtAuthFilter extends OncePerRequestFilter {
   protected void doFilterInternal(
       HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
-    String authorizationHeader = request.getHeader("Authorization");
+    if (request.getCookies() != null) {
+      for (Cookie cookie : request.getCookies()) {
+        if (cookie.getName().equals("access_token")) {
+          String token = cookie.getValue();
+          jwtService.validateToken(token);
 
-    if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-      String token = authorizationHeader.substring(7);
+          Long userId = jwtService.getUserIdFromToken(token);
 
-      jwtService.validateToken(token);
+          UsernamePasswordAuthenticationToken authToken =
+              new UsernamePasswordAuthenticationToken(userId, null, null);
 
-      Long userId = jwtService.getUserIdFromToken(token);
-
-      UsernamePasswordAuthenticationToken authToken =
-          new UsernamePasswordAuthenticationToken(userId, null, null);
-
-      SecurityContextHolder.getContext().setAuthentication(authToken);
+          SecurityContextHolder.getContext().setAuthentication(authToken);
+          break;
+        }
+      }
     }
 
     filterChain.doFilter(request, response);
+  }
+
+  @Override
+  protected boolean shouldNotFilter(HttpServletRequest request) {
+    return request.getRequestURI().startsWith("/api/auth");
   }
 }

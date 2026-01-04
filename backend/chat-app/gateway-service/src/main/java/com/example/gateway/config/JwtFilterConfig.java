@@ -1,13 +1,11 @@
 package com.example.gateway.config;
 
 import com.example.gateway.service.JwtService;
-import io.jsonwebtoken.JwtException;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
 @Configuration
 public class JwtFilterConfig {
@@ -26,9 +24,9 @@ public class JwtFilterConfig {
         return chain.filter(exchange);
       }
 
-      String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-      if (authHeader != null && authHeader.startsWith("Bearer ")) {
-        String token = authHeader.substring(7);
+      HttpCookie cookie = exchange.getRequest().getCookies().getFirst("access_token");
+      if (cookie != null) {
+        String token = cookie.getValue();
         jwtService.validateToken(token);
       } else {
         exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
