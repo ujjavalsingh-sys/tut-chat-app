@@ -24,7 +24,7 @@ export const ChatBubble = ({
             alt="Tailwind CSS chat bubble component"
             src="https://img.daisyui.com/images/profile/demo/kenobee@192.webp"
           /> */}
-          <div className="text-l font-thin opacity-70 tabular-nums">
+          <div className="text-2xl font-thin opacity-70 tabular-nums">
             {sender.firstName[0]}
             {sender.lastName[0]}
           </div>

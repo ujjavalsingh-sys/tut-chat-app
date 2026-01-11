@@ -1,4 +1,4 @@
-import { api_url } from "./usersClient";
+import { api_url } from "./types";
 import { getRequest, postRequest } from "./request";
 import type { Message, CreateMessageRequest } from "./types";
 

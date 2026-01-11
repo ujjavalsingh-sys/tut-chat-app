@@ -1,26 +1,22 @@
 import { Outlet, useNavigate } from "react-router";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { selectAuthUserName } from "../store/users/authUserSelectors";
-import { SidePane } from "./sidepane/SidePane";
+import { useState } from "react";
+import { SidePane } from "../sidepane/SidePane";
 import {
   ArrowLeftStartOnRectangleIcon,
   Bars3Icon,
 } from "@heroicons/react/16/solid";
+import { useSelector } from "react-redux";
+import { selectAuthUserName } from "../../store/users/authUserSelectors";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
   const [isSidePanelVisible, setIsSidePanelVisible] = useState(true);
+
   const authUserName = useSelector(selectAuthUserName);
+
   const logout = () => {
     navigate("/");
   };
-
-  useEffect(() => {
-    if (!authUserName) {
-      logout();
-    }
-  }, [authUserName]);
 
   const handleToggleSidePanel = () => {
     setIsSidePanelVisible(!isSidePanelVisible);
@@ -30,7 +26,7 @@ export const Dashboard = () => {
     logout();
   };
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex flex-1 w-full flex-col">
       <div className="navbar bg-base-100 shadow-sm">
         <div className="flex-none">
           <button

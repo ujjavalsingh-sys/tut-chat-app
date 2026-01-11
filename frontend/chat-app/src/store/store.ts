@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authUserReducer } from "./users/authUserSlice";
+import { messageToastReducer } from "./messageToast/messageToastSlice";
 
 export const store = configureStore({
   reducer: {
     user: authUserReducer,
+    toast: messageToastReducer,
   },
 });
 

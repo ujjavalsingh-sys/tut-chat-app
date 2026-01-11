@@ -7,6 +7,7 @@ import { selectAuthUserId } from "../../store/users/authUserSelectors";
 import useSWR from "swr";
 import { fetchConversations } from "../../api/conversationClient";
 import type { Conversation } from "../../api/types";
+import { useCheckErrorForAuth } from "../../errorhandling/useCheckErrorForAuth";
 
 export const SidePane = () => {
   const authUserId = useSelector(selectAuthUserId);
@@ -14,6 +15,8 @@ export const SidePane = () => {
     `/conversations?participant=${authUserId}`,
     fetchConversations
   );
+
+  useCheckErrorForAuth(error?.message, true);
 
   if (!authUserId) return "Log in to load conversations";
   if (error) return <div> {error.toString()}</div>;

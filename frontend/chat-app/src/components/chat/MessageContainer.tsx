@@ -1,5 +1,9 @@
 import { type ReactNode, useRef } from "react";
-import { useErrorHandler } from "../../errorhandling/useErrorHandler";
+import { useDispatch } from "react-redux";
+import {
+  clearMessageToast,
+  showErrorMessageToast,
+} from "../../store/messageToast/messageToastSlice";
 
 interface MessageContainerProps {
   children: ReactNode;
@@ -11,19 +15,20 @@ export const MessageContainer = ({
   sendMessage,
 }: MessageContainerProps) => {
   const messageRef = useRef<HTMLInputElement | null>(null);
-  const { clearError, notifyError } = useErrorHandler();
+
+  const dispatch = useDispatch();
 
   const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (messageRef.current) {
       const message = messageRef.current.value;
       try {
-        clearError();
         await sendMessage(message);
         messageRef.current.value = "";
+        dispatch(clearMessageToast());
       } catch (e) {
         if (e instanceof Error) {
-          notifyError(e);
+          dispatch(showErrorMessageToast(e.message));
         }
       }
     }

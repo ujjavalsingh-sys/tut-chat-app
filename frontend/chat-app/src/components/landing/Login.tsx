@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { loginUser, registerUser } from "../api/usersClient";
-import { useErrorHandler } from "../errorhandling/useErrorHandler";
-import { useNavigate } from "react-router";
+import { loginUser, registerUser } from "../../api/authClient";
 import { useDispatch } from "react-redux";
-import { setAuthenticatedUser } from "../store/users/authUserSlice";
-import type { LoginRequest, NewPersonRequest } from "../api/types";
+import { setAuthenticatedUser } from "../../store/users/authUserSlice";
+import type { LoginRequest, NewPersonRequest } from "../../api/types";
+import {
+  clearMessageToast,
+  showErrorMessageToast,
+} from "../../store/messageToast/messageToastSlice";
 
 type Mode = "login" | "register";
 type ApiState = "pending" | "error" | "none";
@@ -38,34 +40,29 @@ export const Login: React.FC = () => {
     setRegisterData({ ...registerData, [e.target.name]: e.target.value });
   };
 
-  const { notifyError, clearError } = useErrorHandler();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      if (apiState === "error") {
-        clearError();
-      }
       setApiState("pending");
       const authUser =
         mode === "login"
           ? await loginUser(loginData)
           : await registerUser(registerData);
-      dispatch(setAuthenticatedUser(authUser));
       setApiState("none");
-      navigate("/dashboard");
+      dispatch(setAuthenticatedUser(authUser));
+      dispatch(clearMessageToast());
     } catch (error) {
       setApiState("error");
       if (error instanceof Error) {
-        notifyError(error);
+        dispatch(showErrorMessageToast(error.message));
       }
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+    <div className="flex flex-1 items-center justify-center min-w-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
         <h1 className="text-2xl font-bold text-center mb-6">
           Chat On {mode === "login" ? "Login" : "Register"}
