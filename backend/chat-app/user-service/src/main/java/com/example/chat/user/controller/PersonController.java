@@ -5,6 +5,7 @@ import com.example.chat.user.entity.Person;
 import com.example.chat.user.mapper.PersonMapper;
 import com.example.chat.user.service.JwtService;
 import com.example.chat.user.service.PersonService;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +28,12 @@ public class PersonController {
 
   @GetMapping("/{userId}")
   public PersonDto getUserById(@PathVariable("userId") Long userId) {
+    return PersonMapper.toDto(personService.getUserById(userId));
+  }
+
+  @GetMapping("/me")
+  public PersonDto getCurrentUser(Authentication authentication) {
+    Long userId = Long.valueOf(authentication.getName());
     return PersonMapper.toDto(personService.getUserById(userId));
   }
 }

@@ -48,7 +48,7 @@ public class AuthController {
     cookie.setSecure(true);
     cookie.setPath("/");
     cookie.setMaxAge(3600);
-    cookie.setAttribute("SameSite", "Strict");
+    cookie.setAttribute("SameSite", "None");
     return cookie;
   }
 }

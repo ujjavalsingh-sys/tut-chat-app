@@ -21,11 +21,18 @@ spring:
           uri: http://${CHAT_SERVICE_HOST:chat-service}:8081
           predicates:
             - Path=/api/messages/**
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
       globalcors:
         corsConfigurations:
           '[/**]':
             allowedOrigins: "http://localhost:5173"
-            allowedMethods: "GET,POST,PUT,DELETE,OPTIONS"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
             allowedHeaders: "*"
             allowCredentials: true
 jwt:
