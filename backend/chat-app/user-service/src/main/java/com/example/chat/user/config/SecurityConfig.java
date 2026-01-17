@@ -5,6 +5,7 @@ import com.example.chat.user.service.JwtService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -19,16 +20,15 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf(csrf -> csrf.disable())
-        .authorizeRequests(
+        .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(
             authorizeRequests ->
                 authorizeRequests
-                    .requestMatchers("/api/auth/*")
+                    .requestMatchers("/api/auth/login", "/api/auth/register", "/error")
                     .permitAll()
                     .anyRequest()
-                    .authenticated()
-                    .and()
-                    .addFilterBefore(
-                        new JwtAuthFilter(jwtService), UsernamePasswordAuthenticationFilter.class));
+                    .authenticated())
+        .addFilterBefore(new JwtAuthFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }
 }

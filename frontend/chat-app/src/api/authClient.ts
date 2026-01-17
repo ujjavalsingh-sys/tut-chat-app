@@ -15,3 +15,7 @@ export const registerUser = async (
 export const loginUser = async (requestData: LoginRequest): Promise<Person> => {
   return postRequest<Person>(`${api_url}/api/auth/login`, requestData);
 };
+
+export const logoutUser = async (): Promise<Person> => {
+  return postRequest<Person>(`${api_url}/api/auth/logout`, {});
+};

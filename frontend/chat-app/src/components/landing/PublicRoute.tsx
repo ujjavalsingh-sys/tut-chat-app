@@ -3,7 +3,7 @@ import { Navigate } from "react-router";
 import { useCheckAuth } from "./useCheckAuth";
 
 export const PublicRoute = ({ children }: { children: ReactNode }) => {
-  const { isLoading, loadError, user } = useCheckAuth({ showError: false });
+  const { isLoading, loadError, user } = useCheckAuth();
   if (!user) {
     if (loadError) return children;
     return (

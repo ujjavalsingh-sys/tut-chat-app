@@ -1,29 +1,34 @@
-import { Outlet, useNavigate } from "react-router";
+import { Outlet } from "react-router";
 import { useState } from "react";
 import { SidePane } from "../sidepane/SidePane";
 import {
   ArrowLeftStartOnRectangleIcon,
   Bars3Icon,
 } from "@heroicons/react/16/solid";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectAuthUserName } from "../../store/users/authUserSelectors";
+import { logoutUser } from "../../api/authClient";
+import { clearAuthenticatedUser } from "../../store/users/authUserSlice";
+import { showErrorMessageToast } from "../../store/messageToast/messageToastSlice";
 
 export const Dashboard = () => {
-  const navigate = useNavigate();
   const [isSidePanelVisible, setIsSidePanelVisible] = useState(true);
 
   const authUserName = useSelector(selectAuthUserName);
-
-  const logout = () => {
-    navigate("/");
-  };
+  const dispatch = useDispatch();
 
   const handleToggleSidePanel = () => {
     setIsSidePanelVisible(!isSidePanelVisible);
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    const loggedOutUser = await logoutUser();
+    dispatch(clearAuthenticatedUser());
+    dispatch(
+      showErrorMessageToast(
+        `${loggedOutUser.firstName} ${loggedOutUser.lastName} has been signed out.`
+      )
+    );
   };
   return (
     <div className="flex flex-1 w-full flex-col">

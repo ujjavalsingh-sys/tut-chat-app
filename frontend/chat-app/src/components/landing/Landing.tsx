@@ -1,14 +1,10 @@
-import { Link } from "react-router";
+import { Navigate } from "react-router";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 export const Landing = () => {
   return (
-    <div>
-      <Link className="btn" to="/login">
-        Login
-      </Link>
-      <Link className="btn" to="/dashboard">
-        Dashboard
-      </Link>
-    </div>
+    <ProtectedRoute>
+      <Navigate to="/dashboard" replace />
+    </ProtectedRoute>
   );
 };

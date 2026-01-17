@@ -4,24 +4,22 @@ import { useMemo, useState } from "react";
 import { ConversationList } from "./ConversationList";
 import { useSelector } from "react-redux";
 import { selectAuthUserId } from "../../store/users/authUserSelectors";
-import useSWR from "swr";
 import { fetchConversations } from "../../api/conversationClient";
 import type { Conversation } from "../../api/types";
-import { useCheckErrorForAuth } from "../../errorhandling/useCheckErrorForAuth";
+import { useSWRWithAuth } from "../../errorhandling/useSWRWithAuth";
 
 export const SidePane = () => {
   const authUserId = useSelector(selectAuthUserId);
-  const { data: convos, error } = useSWR(
+  const { data, error, isLoading } = useSWRWithAuth(
     `/conversations?participant=${authUserId}`,
     fetchConversations
   );
 
-  useCheckErrorForAuth(error?.message, true);
+  if (isLoading) return "Loading convos...";
+  if (error) return error.toString();
+  if (!data) return null;
 
-  if (!authUserId) return "Log in to load conversations";
-  if (error) return <div> {error.toString()}</div>;
-  if (!convos) return "Loading convos...";
-  return <SidePaneMain authUserId={authUserId} convos={convos} />;
+  return <SidePaneMain authUserId={authUserId} convos={data} />;
 };
 
 interface SidePaneMainProps {

@@ -1,7 +1,12 @@
+import { InvalidAccessTokenError } from "./InvalidAccessTokenError";
+
 const handleError = async (response: Response) => {
   if (!response.ok) {
     const data = await response.json().catch(() => null);
     if (data) {
+      if (data.error === "UNVERIFIED_ACCESS_TOKEN") {
+        throw new InvalidAccessTokenError();
+      }
       throw new Error("Server error: " + (data.message ?? data.error));
     }
     throw new Error(`Network error ${response.status}: ${response.statusText}`);
@@ -11,6 +16,7 @@ const handleError = async (response: Response) => {
 export const getRequest = async <T>(url: string): Promise<T> => {
   const res = await fetch(url, { credentials: "include" });
   await handleError(res);
+  // await new Promise((resolve) => setTimeout(() => resolve(0), 2000));
   return res.json() as Promise<T>;
 };
 

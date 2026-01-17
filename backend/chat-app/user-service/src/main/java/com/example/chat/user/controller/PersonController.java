@@ -1,7 +1,6 @@
 package com.example.chat.user.controller;
 
 import com.example.chat.user.dto.PersonDto;
-import com.example.chat.user.entity.Person;
 import com.example.chat.user.mapper.PersonMapper;
 import com.example.chat.user.service.JwtService;
 import com.example.chat.user.service.PersonService;
