@@ -4,7 +4,7 @@ const handleError = async (response: Response) => {
   if (!response.ok) {
     const data = await response.json().catch(() => null);
     if (data) {
-      if (data.error === "UNVERIFIED_ACCESS_TOKEN") {
+      if (response.status === 401) {
         throw new InvalidAccessTokenError();
       }
       throw new Error("Server error: " + (data.message ?? data.error));
