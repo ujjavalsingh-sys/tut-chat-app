@@ -1,6 +1,7 @@
 package com.example.chat.user.filter;
 
 import com.example.chat.user.service.JwtService;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -28,7 +29,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       for (Cookie cookie : request.getCookies()) {
         if (cookie.getName().equals("access_token")) {
           String token = cookie.getValue();
-          jwtService.validateToken(token);
+          try {
+            jwtService.validateToken(token);
+          } catch (JwtException e) {
+            break;
+          }
 
           Long userId = jwtService.getUserIdFromToken(token);
 

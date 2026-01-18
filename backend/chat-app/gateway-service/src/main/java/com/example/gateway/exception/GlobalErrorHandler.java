@@ -23,14 +23,18 @@ public class GlobalErrorHandler implements ErrorWebExceptionHandler {
     ServerHttpResponse response = exchange.getResponse();
     response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
+    String errorType;
+
     if (ex instanceof JwtException) {
       response.setStatusCode(HttpStatus.UNAUTHORIZED);
+      errorType = "UNVERIFIED_ACCESS_TOKEN";
     } else {
       response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
+      errorType = "INTERNAL_SERVER_ERROR";
     }
 
     Map<String, String> map =
-        Map.of("error", "UNVERIFIED_ACCESS_TOKEN", "message", ex.getMessage(), "source", "gateway");
+        Map.of("error", errorType, "message", ex.getMessage(), "source", "gateway");
     String message = null;
     try {
       message = new ObjectMapper().writeValueAsString(map);
