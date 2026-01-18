@@ -26,7 +26,7 @@ export const UserList = ({ searchText, excludeUserIds }: UserListProps) => {
         !searchText ||
         username.includes(searchText) ||
         firstName.includes(searchText) ||
-        lastName.includes(searchText)
+        lastName.includes(searchText),
     )
     .map(({ id, username, firstName, lastName }) => ({
       id,

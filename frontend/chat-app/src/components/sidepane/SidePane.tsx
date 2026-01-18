@@ -7,19 +7,30 @@ import { selectAuthUserId } from "../../store/users/authUserSelectors";
 import { fetchConversations } from "../../api/conversationClient";
 import type { Conversation } from "../../api/types";
 import { useSWRWithAuth } from "../../errorhandling/useSWRWithAuth";
+import { ApiErrorView } from "../../errorhandling/ApiErrorView";
+import { centeredFlex } from "../../shared/cssConstants";
 
 export const SidePane = () => {
   const authUserId = useSelector(selectAuthUserId);
   const { data, error, isLoading } = useSWRWithAuth(
     `/conversations?participant=${authUserId}`,
-    fetchConversations
+    fetchConversations,
   );
 
-  if (isLoading) return "Loading convos...";
-  if (error) return error.toString();
-  if (!data) return null;
-
-  return <SidePaneMain authUserId={authUserId} convos={data} />;
+  return (
+    <div className={centeredFlex}>
+      {isLoading ? (
+        <>
+          <label className="text-xs">Conversations</label>
+          <div className="skeleton h-6 mx-5 my-2"></div>
+        </>
+      ) : error ? (
+        <ApiErrorView title="Conversations" error={error} />
+      ) : !data ? null : (
+        <SidePaneMain authUserId={authUserId} convos={data} />
+      )}
+    </div>
+  );
 };
 
 interface SidePaneMainProps {
@@ -45,7 +56,7 @@ const SidePaneMain = ({ authUserId, convos }: SidePaneMainProps) => {
   }, [authUserId, convos]);
 
   return (
-    <div className="h-full flex flex-col">
+    <>
       <label className="input">
         <MagnifyingGlassIcon className="size-6" />
         <input
@@ -56,10 +67,10 @@ const SidePaneMain = ({ authUserId, convos }: SidePaneMainProps) => {
           onChange={(e) => setSearchText(e.target.value)}
         />
       </label>
-      <div className="flex-1 overflow-auto shadow-md">
-        {<ConversationList conversations={convos} />}
+      <div className="flex-1 w-full text-start overflow-auto shadow-md">
+        <ConversationList conversations={convos} />
         <UserList searchText={searchText} excludeUserIds={directMessages} />
       </div>
-    </div>
+    </>
   );
 };

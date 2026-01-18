@@ -22,16 +22,22 @@ export const Dashboard = () => {
   };
 
   const handleLogout = async () => {
-    const loggedOutUser = await logoutUser();
-    dispatch(clearAuthenticatedUser());
-    dispatch(
-      showErrorMessageToast(
-        `${loggedOutUser.firstName} ${loggedOutUser.lastName} has been signed out.`
-      )
-    );
+    try {
+      const loggedOutUser = await logoutUser();
+      dispatch(clearAuthenticatedUser());
+      dispatch(
+        showErrorMessageToast(
+          `${loggedOutUser.firstName} ${loggedOutUser.lastName} has been signed out.`,
+        ),
+      );
+    } catch (e) {
+      if (e instanceof Error) {
+        dispatch(showErrorMessageToast(e.message));
+      }
+    }
   };
   return (
-    <div className="flex flex-1 w-full flex-col">
+    <div className="flex h-full w-full flex-col">
       <div className="navbar bg-base-100 shadow-sm">
         <div className="flex-none">
           <button
@@ -54,7 +60,7 @@ export const Dashboard = () => {
       </div>
       <div className="flex flex-row flex-1 overflow-auto">
         {isSidePanelVisible && (
-          <div className="w-64 overflow-auto">
+          <div className="w-64">
             <SidePane />
           </div>
         )}

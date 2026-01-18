@@ -7,6 +7,7 @@ import { ChatBubble } from "./ChatBubble";
 import type { CreateMessageRequest } from "../../api/types";
 import { fetchMessages, sendMessageRequest } from "../../api/messageClient";
 import { fetchConversation } from "../../api/conversationClient";
+import { ApiErrorView } from "../../errorhandling/ApiErrorView";
 
 export const ConversationChat = () => {
   const authUserId = useSelector(selectAuthUserId);
@@ -25,11 +26,11 @@ const ConversationChatAuthenticated = ({
   const conversationId = Number(id);
   const { data: messages, error } = useSWR(
     `/messages/${conversationId}`,
-    fetchMessages
+    fetchMessages,
   );
   const { data: conversation } = useSWR(
     `/conversations/${conversationId}?authUserId=${authUserId}`,
-    fetchConversation
+    fetchConversation,
   );
 
   if (!conversation) {
@@ -37,7 +38,7 @@ const ConversationChatAuthenticated = ({
   }
 
   if (error) {
-    return <div>{`Error loading conversation: ${error.message}`}</div>;
+    return <ApiErrorView title="Messages" error={error} />;
   }
 
   if (!messages) {
