@@ -36,10 +36,14 @@ services:
       context: .
       dockerfile: gateway-service/Dockerfile
     ports:
-      - "8080:8080"
+      - "8443:8443"
     depends_on:
       - chat-service
       - user-service
+    volumes:
+      - ../../certs/keystore.p12:/app/certs/keystore.p12:ro
+    environment:
+      - KEYSTORE_PATH=/app/certs/keystore.p12
 
   postgres:
     image: postgres:15
