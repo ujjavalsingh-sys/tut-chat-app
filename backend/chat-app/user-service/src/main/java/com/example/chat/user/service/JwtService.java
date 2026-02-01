@@ -5,24 +5,23 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-
 import java.security.Key;
 import java.util.Date;
 
 public class JwtService {
   private final Key signKey;
-  private final long expirationMs;
+  private final long expirationSec;
 
-  public JwtService(String secret, long expirationMs) {
+  public JwtService(String secret, long expirationSec) {
     signKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
-    this.expirationMs = expirationMs;
+    this.expirationSec = expirationSec;
   }
 
   public String generateToken(Long userId) {
     return Jwts.builder()
         .setSubject(userId.toString())
         .setIssuedAt(new Date())
-        .setExpiration(new Date(System.currentTimeMillis() + expirationMs))
+        .setExpiration(new Date(System.currentTimeMillis() + expirationSec * 1000))
         .signWith(signKey)
         .compact();
   }

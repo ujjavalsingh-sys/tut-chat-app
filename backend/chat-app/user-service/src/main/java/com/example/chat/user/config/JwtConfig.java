@@ -11,8 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class JwtConfig {
   @Bean
   public JwtService jwtService(
-      @Value("${jwt.secret}") String secret, @Value("${jwt.expirationMs}") long expirationMs) {
-    return new JwtService(secret, expirationMs);
+      @Value("${jwt.secret}") String secret, @Value("${jwt.expirationSec}") long expirationSec) {
+    return new JwtService(secret, expirationSec);
   }
 
   @Bean

@@ -20,7 +20,9 @@ public class JwtFilterConfig {
     return ((exchange, chain) -> {
       String path = exchange.getRequest().getURI().getPath();
 
-      if (path.equals("/api/auth/register") || path.equals("/api/auth/login")) {
+      if (path.equals("/api/auth/register")
+          || path.equals("/api/auth/login")
+          || path.equals("/api/auth/refresh")) {
         return chain.filter(exchange);
       }
 
