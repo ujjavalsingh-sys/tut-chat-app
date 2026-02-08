@@ -50,25 +50,18 @@ public class AuthController {
   @PostMapping("/register")
   public PersonDto registerUser(
       @RequestBody NewPersonRequest request, HttpServletResponse response) {
-    Person newPerson =
-        new Person(request.firstname(), request.lastname(), request.username(), request.password());
-    Person person = personService.saveUser(newPerson);
-    response.addCookie(createCookie(jwtService.generateToken(person.getId()), jwtExpirationSec));
+    Person person =
+        personService.saveUser(
+            new Person(
+                request.firstname(), request.lastname(), request.username(), request.password()));
+    addCookies(response, person);
     return PersonMapper.toDto(person);
   }
 
   @PostMapping("/login")
   public PersonDto loginUser(@RequestBody LoginRequest request, HttpServletResponse response) {
     Person person = personService.getUserByUsername(request.username(), request.password());
-
-    response.addCookie(createCookie(jwtService.generateToken(person.getId()), jwtExpirationSec));
-
-    String refreshToken = UUID.randomUUID().toString();
-    response.addCookie(refreshTokenCookie(refreshToken, refreshTokenExpirationSec));
-
-    refreshTokenService.save(
-        refreshToken, person.getId(), Instant.now().plusSeconds(refreshTokenExpirationSec));
-
+    addCookies(response, person);
     return PersonMapper.toDto(person);
   }
 
@@ -100,6 +93,16 @@ public class AuthController {
     response.addCookie(createCookie(jwtService.generateToken(token.getUserId()), jwtExpirationSec));
 
     return ResponseEntity.ok(Map.of("status", "ok"));
+  }
+
+  private void addCookies(HttpServletResponse response, Person person) {
+    response.addCookie(createCookie(jwtService.generateToken(person.getId()), jwtExpirationSec));
+
+    String refreshToken = UUID.randomUUID().toString();
+    response.addCookie(refreshTokenCookie(refreshToken, refreshTokenExpirationSec));
+
+    refreshTokenService.save(
+        refreshToken, person.getId(), Instant.now().plusSeconds(refreshTokenExpirationSec));
   }
 
   private String extractRefreshToken(HttpServletRequest request) {

@@ -5,6 +5,7 @@ import com.example.chat.user.exception.RefreshTokenExpiredException;
 import com.example.chat.user.repository.RefreshTokenRepository;
 import java.time.Instant;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RefreshTokenService {
@@ -14,11 +15,12 @@ public class RefreshTokenService {
     this.refreshTokenRepository = refreshTokenRepository;
   }
 
-  public void save(String token, Long userId, Instant exipryDate) {
-    RefreshToken refreshToken = new RefreshToken(token, userId, exipryDate);
+  public void save(String token, Long userId, Instant expiryDate) {
+    RefreshToken refreshToken = new RefreshToken(token, userId, expiryDate);
     refreshTokenRepository.save(refreshToken);
   }
 
+  @Transactional
   public void delete(String token) {
     refreshTokenRepository.deleteByToken(token);
   }
