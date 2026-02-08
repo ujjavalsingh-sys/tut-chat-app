@@ -63,7 +63,7 @@ export const Login: React.FC = () => {
 
   return (
     <div className="flex flex-1 items-center justify-center min-w-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+      <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 w-full max-w-md">
         <h1 className="text-2xl font-bold text-center mb-6">
           Chat On {mode === "login" ? "Login" : "Register"}
         </h1>
@@ -139,7 +139,7 @@ export const Login: React.FC = () => {
               Don't have an account?{" "}
               <button
                 onClick={() => setMode("register")}
-                className="text-indigo-600 hover:underline"
+                className="text-indigo-600 dark:text-indigo-300 hover:underline"
               >
                 Register
               </button>
@@ -149,7 +149,7 @@ export const Login: React.FC = () => {
               Already have an account?{" "}
               <button
                 onClick={() => setMode("login")}
-                className="text-indigo-600 hover:underline"
+                className="text-indigo-600 dark:text-indigo-300 hover:underline"
               >
                 Login
               </button>

@@ -32,7 +32,7 @@ export const NavigableList = ({
         items.map(({ id, title, subTitle }) => (
           <li
             key={id}
-            className={`flex ${id.toString() === activeId && "bg-blue-100"}`}
+            className={`flex ${id.toString() === activeId && "bg-blue-100 dark:bg-gray-700"}`}
           >
             <Link
               to={`${urlPrefix}/${id}`}

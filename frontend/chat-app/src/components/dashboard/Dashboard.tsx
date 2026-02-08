@@ -64,7 +64,7 @@ export const Dashboard = () => {
             <SidePane />
           </div>
         )}
-        <div className="flex-1 bg-gray-100">
+        <div className="flex-1 bg-gray-100 dark:bg-gray-800">
           <Outlet />
         </div>
       </div>
